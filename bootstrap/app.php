@@ -16,6 +16,17 @@ $app = new Slim\App([
             'name' => getenv('APP_NAME')
         ],
 
+        'db' => [
+            "driver"    => getenv('DB_DRIVER'),
+            "host"      => getenv('DB_HOST'),
+            'database'  => getenv('DB_DATABASE'),
+            "username"  => getenv('DB_USERNAME'),
+            "password"  => getenv('DB_PASSWORD'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ],
+
         'views' => [
             'cache' => getenv('VIEW_CACHE_DISABLED') === 'true' ? false : __DIR__ . '/../storage/views'
         ]
@@ -35,4 +46,5 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/../routes/web.php';

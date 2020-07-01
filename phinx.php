@@ -7,34 +7,37 @@ return
         'seeds' => '%%PHINX_CONFIG_DIR%%/db/seeds'
     ],
     'environments' => [
-        'default_migration_table' => 'phinxlog',
+        'default_migration_table' => 'migrations',
         'default_environment' => 'testing',
         'production' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'production_db',
+            'host' => '127.0.0.1',
+            'name' => 'production_slim_php_unit_project',
             'user' => 'root',
-            'pass' => '',
+            'pass' => 'mysql',
             'port' => '3306',
             'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci'
         ],
         'development' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'development_db',
+            'host' => '127.0.0.1',
+            'name' => 'development_slim_php_unit_project',
             'user' => 'root',
-            'pass' => '',
+            'pass' => 'mysql',
             'port' => '3306',
             'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci'
         ],
         'testing' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'testing_db',
+            'host' => '127.0.0.1',
+            'name' => 'testing_slim_php_unit_project',
             'user' => 'root',
-            'pass' => '',
+            'pass' => 'mysql',
             'port' => '3306',
             'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci'
         ]
     ],
     'version_order' => 'creation'

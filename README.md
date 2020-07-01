@@ -14,3 +14,8 @@
 *   Library for php unit : `php composer.phar require phpunit/phpunit`
 *   Library for PSR2 convention : `php composer.phar require squizlabs/php_codesniffer` for PSR2
     and install SonarLint for SonarQube.
+    
+## Phinx Commands
+*   `vendor/bin/phinx create CreateUsersTable`
+*   `vendor/bin/phinx migrate -e testing` // Run this command in docker bash.
+*   `vendor/bin/phinx rollback -e testing` // Run this command in docker bash.
