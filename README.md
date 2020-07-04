@@ -14,6 +14,7 @@
 *   Library for php unit : `php composer.phar require phpunit/phpunit`
 *   Library for PSR2 convention : `php composer.phar require squizlabs/php_codesniffer` for PSR2
     and install SonarLint for SonarQube.
+*   Library for JWT : `php composer.phar require firebase/php-jwt`
     
 ## Phinx Commands
 *   `vendor/bin/phinx create CreateUsersTable`
