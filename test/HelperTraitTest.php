@@ -24,4 +24,10 @@ class HelperTraitTest extends TestCase
         $value = null;
         $this->assertFalse($this->emptyCheck($value));
     }
+
+    public function testCheckWithValue(): void
+    {
+        $value = 1;
+        $this->assertTrue($this->emptyCheck($value));
+    }
 }
