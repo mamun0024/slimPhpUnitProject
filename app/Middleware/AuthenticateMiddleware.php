@@ -16,9 +16,11 @@ class AuthenticateMiddleware
     private $settings;
 
     /**
-     * Get application settings data.
+     * Set app settings data here.
      *
      * @param array $settings
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      */
     public function __construct(array $settings)
     {
@@ -30,9 +32,11 @@ class AuthenticateMiddleware
      *
      * @param ServerRequestInterface $request  PSR7 request
      * @param ResponseInterface $response PSR7 response
-     * @param callable $next     Next middleware
+     * @param callable $next Next middleware
      *
      * @return ResponseInterface
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
@@ -51,7 +55,9 @@ class AuthenticateMiddleware
     /**
      * @param ServerRequestInterface $request
      *
-     * @return mixed
+     * @return boolean
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      */
     private function passes(ServerRequestInterface $request)
     {

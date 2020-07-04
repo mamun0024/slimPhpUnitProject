@@ -32,6 +32,8 @@ class User extends Model
      *
      * @param array $request
      * @return array
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      */
     public function createOrUpdate($request)
     {

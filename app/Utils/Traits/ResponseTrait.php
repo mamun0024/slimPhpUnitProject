@@ -11,8 +11,11 @@ trait ResponseTrait
     protected $response_details;
 
     /**
-     * Response body.
+     * Format the application response body.
      *
+     * @return array
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      */
     public function responseData()
     {

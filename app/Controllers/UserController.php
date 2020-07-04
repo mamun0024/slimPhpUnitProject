@@ -22,13 +22,15 @@ class UserController extends Controller
      * @param array $args Arguments
      * @return mixed
      * @throws \Exception
-     * @author "Md. Abdullah-Al- Mamun" <abdullah.mamun@bs-23.net>
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      *
      */
     public function createOrUpdate(Request $request, Response $response, $args = null)
     {
-        // Get user id from POST and PUT method.
         $request_type = $request->getMethod();
+
+        // Get user id from PUT method.
         if ($request_type === 'PUT') {
             $user_id = $args['id'];
         } else {
@@ -82,8 +84,8 @@ class UserController extends Controller
      * @param string $request_type Request Type: POST or PUT
      * @param string $user_id User id
      * @return mixed
-     * @throws \Exception
-     * @author "Md. Abdullah-Al- Mamun" <abdullah.mamun@bs-23.net>
+     *
+     * @author "Md. Abdullah-Al- Mamun" <mamuncse824@gmail.com>
      *
      */
     private function userValidate(Request $request, $request_type, $user_id)
