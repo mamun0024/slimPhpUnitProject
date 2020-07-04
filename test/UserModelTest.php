@@ -2,25 +2,29 @@
 
 namespace test;
 
-use PHPUnit\Framework\TestCase;
 use App\Models\User;
 
-class UserModelTest extends TestCase
+require_once 'BaseTestClass.php';
+
+class UserModelTest extends BaseTestClass
 {
-    private $userClass;
+    protected $userClass;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->userClass = new User();
     }
 
     public function testCreateUserReturnStatusCode201(): void
     {
-        $userData = [
-            'name'  => "MD. Abdullah Al Mamun.",
-            'email' => rand()."as@gmail.com",
-            'pass'  => "1234"
-        ];
-        $this->assertEquals(201, $this->userClass->createOrUpdate($userData)['statusCode']);
+        $userInsertData = $this->populateCreateData();
+        $this->assertEquals(201, $this->userClass->createOrUpdate($userInsertData)['code']);
+    }
+
+    public function testUpdateUserReturnStatusCode200(): void
+    {
+        $userUpdateData = $this->populateUpdateData();
+        $this->assertEquals(200, $this->userClass->createOrUpdate($userUpdateData)['code']);
     }
 }
