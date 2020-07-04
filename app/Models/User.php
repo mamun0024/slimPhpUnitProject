@@ -12,9 +12,9 @@ class User extends Model
     |--------------------------------------------------------------------------
     */
     const USER_ID        = 'id';
-    const USER_FULL_NAME = 'id';
-    const USER_EMAIL     = 'title';
-    const USER_PASS      = 'is_ssl_live';
+    const USER_FULL_NAME = 'name';
+    const USER_EMAIL     = 'email';
+    const USER_PASS      = 'pass';
 
     protected $table    = 'users';
     protected $fillable = [
