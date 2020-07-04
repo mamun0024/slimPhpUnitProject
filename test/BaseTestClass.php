@@ -3,6 +3,8 @@
 namespace test;
 
 use PHPUnit\Framework\TestCase;
+use Slim\Http\Environment;
+use Slim\Http\Request;
 
 class BaseTestClass extends TestCase
 {
