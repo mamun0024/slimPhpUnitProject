@@ -9,6 +9,7 @@ require_once 'BaseTestClass.php';
 class UserModelTest extends BaseTestClass
 {
     protected $userClass;
+    private $userUpdateData;
 
     protected function setUp(): void
     {
@@ -24,7 +25,12 @@ class UserModelTest extends BaseTestClass
 
     public function testUpdateUserReturnStatusCode200(): void
     {
-        $userUpdateData = $this->populateUpdateData();
-        $this->assertEquals(200, $this->userClass->createOrUpdate($userUpdateData)['code']);
+        $this->userUpdateData = $this->populateUpdateData();
+        $this->assertEquals(200, $this->userClass->createOrUpdate($this->userUpdateData)['code']);
+    }
+
+    public function testConflictRequestReturnStatusCode409(): void
+    {
+        $this->assertEquals(409, $this->userClass->createOrUpdate($this->userUpdateData)['code']);
     }
 }
