@@ -4,30 +4,30 @@ namespace App\Utils\Traits;
 
 trait ResponseTrait
 {
+    protected $response_status;
+    protected $response_code;
+    protected $response_message;
+    protected $response_data;
+    protected $response_details;
+
     /**
      * Response body.
      *
-     * @param boolean $status Response Status.
-     * @param integer $code Response code.
-     * @param string $message Response message.
-     * @param array $data Response data.
-     * @param string $details Response data's details.
-     * @return array
      */
-    public function responseData($status, $code, $message, $data = null, $details = null)
+    public function responseData()
     {
         $response = [
-            'status'  => $status,
-            'code'    => $code,
-            'message' => $message
+            'status'  => $this->response_status,
+            'code'    => $this->response_code,
+            'message' => $this->response_message
         ];
 
-        if ($details) {
+        if ($this->response_details) {
             $response['data'] = [
-                'details' => $details
+                'details' => $this->response_details
             ];
         } else {
-            $response['data'] = $data;
+            $response['data'] = $this->response_data;
         }
 
         return $response;
