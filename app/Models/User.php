@@ -59,15 +59,15 @@ class User extends Model
                 $data    = $user->toArray();
             } else {
                 $status  = false;
-                $code    = 402;
-                $message = 'Malformed request !!!';
+                $code    = 400;
+                $message = 'Bad request !!!';
                 $data    = null;
             }
 
         } catch (QueryException $e) {
             $status  = false;
-            $code    = 400;
-            $message = 'Bad request !!!';
+            $code    = 409;
+            $message = 'Conflict request !!!';
             $data    = null;
 
         } catch (\Exception $e) {

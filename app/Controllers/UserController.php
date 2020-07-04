@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Utils\Traits\HelperTrait;
 use App\Utils\Traits\ResponseTrait;
 use Respect\Validation\Validator as V;
 use Slim\Http\Request;
@@ -10,6 +11,7 @@ use Slim\Http\Response;
 
 class UserController extends Controller
 {
+    use HelperTrait;
     use ResponseTrait;
 
     /**
@@ -26,16 +28,17 @@ class UserController extends Controller
     public function createOrUpdate(Request $request, Response $response, $args = null)
     {
         // Get user id from POST and PUT method.
-        if ($request->getMethod() === 'POST') {
-            $user_id = $request->getParam('id');
-        } else {
+        $request_type = $request->getMethod();
+        if ($request_type === 'PUT') {
             $user_id = $args['id'];
+        } else {
+            $user_id = null;
         }
 
         // Catch the validation errors.
-        $validator = $this->userValidate($request, $user_id);
+        $validator = $this->userValidate($request, $request_type, $user_id);
 
-        if (!$validator || is_array($validator)) {
+        if (!$validator || (is_array($validator) && !empty($validator))) {
             $this->response_status  = false;
             $this->response_code    = 422;
             $this->response_message = "Request param validation error !!!";
@@ -46,7 +49,7 @@ class UserController extends Controller
             try {
                 $user_model = new User();
                 $user_data  = [
-                    User::USER_ID        => (int) $user_id,
+                    User::USER_ID        => ($this->emptyCheck($user_id)) ? (int) $user_id : null,
                     User::USER_FULL_NAME => $request->getParam(User::USER_FULL_NAME),
                     User::USER_EMAIL     => $request->getParam(User::USER_EMAIL),
                     User::USER_PASS      => $request->getParam(User::USER_PASS)
@@ -76,25 +79,28 @@ class UserController extends Controller
      * Validate user request.
      *
      * @param Request $request User inputs
-     * @param array $user_id User id
+     * @param string $request_type Request Type: POST or PUT
+     * @param string $user_id User id
      * @return mixed
      * @throws \Exception
      * @author "Md. Abdullah-Al- Mamun" <abdullah.mamun@bs-23.net>
      *
      */
-    private function userValidate(Request $request, $user_id)
+    private function userValidate(Request $request, $request_type, $user_id)
     {
-        $user_id_array = [
-            User::USER_ID => $user_id
-        ];
+        if ($request_type === 'PUT') {
+            $user_id_array = [
+                User::USER_ID => $user_id
+            ];
 
-        // Validate user ID
-        $validate_user_id = $this->c->get('validator')->array($user_id_array, [
-            User::USER_ID => [
-                'rules'   => V::notBlank()->numeric(),
-                'message' => "User id is not okay."
-            ]
-        ]);
+            // Validate user ID
+            $validate_user_id = $this->c->get('validator')->array($user_id_array, [
+                User::USER_ID => [
+                    'rules'   => V::notBlank()->numeric(),
+                    'message' => "User id is not okay."
+                ]
+            ]);
+        }
 
         // Validate other parameters.
         $validator = $this->c->get('validator')->validate($request, [
@@ -112,12 +118,13 @@ class UserController extends Controller
             ]
         ]);
 
-        if ($validator->isValid() && $validate_user_id->isValid()) {
+        if (($request_type === 'POST') && $validator->isValid()) {
+            $status = true;
+        } elseif (($request_type === 'PUT') && $validator->isValid() && $validate_user_id->isValid()) {
             $status = true;
         } else {
             $status = $validator->getErrors();
         }
-
         return $status;
     }
 }

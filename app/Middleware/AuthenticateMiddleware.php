@@ -56,6 +56,7 @@ class AuthenticateMiddleware
     private function passes(ServerRequestInterface $request)
     {
         // Implement authentication machanism here.
+        // Due to time shortness not implemented.
         return true;
     }
 }
