@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\QueryException;
 
 class User extends Model
 {
@@ -11,6 +12,8 @@ class User extends Model
     | CONSTANTS
     |--------------------------------------------------------------------------
     */
+    const CREATED_AT     = 'created';
+    const UPDATED_AT     = 'modified';
     const USER_ID        = 'id';
     const USER_FULL_NAME = 'name';
     const USER_EMAIL     = 'email';
@@ -45,27 +48,40 @@ class User extends Model
             );
 
             if ($user->wasRecentlyCreated) {
-                $statusCode = 201;
-                $message    = 'User created successfully!';
+                $status  = true;
+                $code    = 201;
+                $message = 'User created successfully.';
+                $data    = $user->toArray();
             } elseif ($user->wasChanged()) {
-                $statusCode = 200;
-                $message    = 'User updated successfully!';
+                $status  = true;
+                $code    = 200;
+                $message = 'User updated successfully.';
+                $data    = $user->toArray();
             } else {
-                $statusCode = 200;
-                $message    = 'No changes were made.';
+                $status  = false;
+                $code    = 402;
+                $message = 'Malformed request !!!';
+                $data    = null;
             }
-            $data = $user->toArray();
+
+        } catch (QueryException $e) {
+            $status  = false;
+            $code    = 400;
+            $message = 'Bad request !!!';
+            $data    = null;
 
         } catch (\Exception $e) {
-            $statusCode = 500;
+            $status  = false;
+            $code    = 500;
             $message = $e->getMessage();
-            $data = null;
+            $data    = null;
         }
 
         return [
-            "statusCode" => $statusCode,
-            "message"    => $message,
-            "data"       => $data
+            "status"  => $status,
+            "code"    => $code,
+            "message" => $message,
+            "data"    => $data
         ];
     }
 }

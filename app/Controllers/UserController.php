@@ -34,10 +34,11 @@ class UserController extends Controller
 
         // Catch the validation errors.
         $validator = $this->userValidate($request, $user_id);
-        if (!$validator) {
-            $this->response_status  = true;
+
+        if (!$validator || is_array($validator)) {
+            $this->response_status  = false;
             $this->response_code    = 422;
-            $this->response_message = "Request param validation error.";
+            $this->response_message = "Request param validation error !!!";
             $this->response_data    = $validator;
             $this->response_details = null;
 
@@ -51,15 +52,11 @@ class UserController extends Controller
                     User::USER_PASS      => $request->getParam(User::USER_PASS)
                 ];
 
-                if ($request->getMethod() === 'POST') {
-                    //Create user.
-                    $response_data = $user_model->createOrUpdate($user_data);
-                } else {
-                    //Update user.
-                    $response_data = $user_model->createOrUpdate($user_data);
-                }
-                $this->response_status  = true;
-                $this->response_code    = $response_data['statusCode'];
+                // Create or Update user.
+                $response_data = $user_model->createOrUpdate($user_data);
+
+                $this->response_status  = $response_data['status'];
+                $this->response_code    = $response_data['code'];
                 $this->response_message = $response_data['message'];
                 $this->response_data    = $response_data['data'];
                 $this->response_details = null;
@@ -67,7 +64,7 @@ class UserController extends Controller
             } catch (\Exception $e) {
                 $this->response_status  = false;
                 $this->response_code    = 500;
-                $this->response_message = "Internal server error.";
+                $this->response_message = "Internal server error !!!";
                 $this->response_data    = null;
                 $this->response_details = $e->getMessage();
             }
@@ -95,7 +92,7 @@ class UserController extends Controller
         $validate_user_id = $this->c->get('validator')->array($user_id_array, [
             User::USER_ID => [
                 'rules'   => V::notBlank()->numeric(),
-                'message' => "User id is a mandatory field."
+                'message' => "User id is not okay."
             ]
         ]);
 

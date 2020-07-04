@@ -1,5 +1,7 @@
 <?php
 
+use Respect\Validation\Validator as V;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
@@ -45,6 +47,11 @@ $container['view'] = function ($container) {
 
     return $view;
 };
+
+$container['validator'] = function () {
+    return new Awurth\SlimValidation\Validator;
+};
+V::with("App\Validation\Rules\\");
 
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/../routes/web.php';
