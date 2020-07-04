@@ -40,7 +40,7 @@ class User extends Model
                 [
                     self::USER_FULL_NAME => $request['name'],
                     self::USER_EMAIL     => $request['email'],
-                    self::USER_PASS      => $request['pass']
+                    self::USER_PASS      => hash('sha512', $request['pass'])
                 ]
             );
 
